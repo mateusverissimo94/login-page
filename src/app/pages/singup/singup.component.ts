@@ -4,24 +4,31 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
-interface LoginForm {
+interface SignupForm {
+  name: FormControl;
   email: FormControl;
   password: FormControl;
+  passwordConfirm: FormControl;
 }
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-singup',
   providers: [LoginService],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './singup.component.html',
+  styleUrls: ['./singup.component.scss'],
 })
-export class LoginComponent {
-  loginForm!: FormGroup<LoginForm>;
+export class SingupComponent {
+  signupForm!: FormGroup<SignupForm>;
 
   constructor(private router: Router, private loginService: LoginService) {
-    this.loginForm = new FormGroup({
+    this.signupForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      passwordConfirm: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
       ]),
@@ -30,7 +37,11 @@ export class LoginComponent {
 
   submit() {
     this.loginService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .signup(
+        this.signupForm.value.name,
+        this.signupForm.value.email,
+        this.signupForm.value.password
+      )
       .subscribe({
         next: () =>
           Swal.fire({
@@ -50,6 +61,6 @@ export class LoginComponent {
   }
 
   navigate() {
-    this.router.navigate(['signup']);
+    this.router.navigate(['login']);
   }
 }
