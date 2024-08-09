@@ -13,6 +13,7 @@ import {
   provideAnimations,
 } from '@angular/platform-browser/animations';
 import { SingupComponent } from './pages/singup/singup.component';
+import { UserComponent } from './pages/user/user.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SingupComponent } from './pages/singup/singup.component';
     LoginComponent,
     PrimaryInputComponent,
     SingupComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
